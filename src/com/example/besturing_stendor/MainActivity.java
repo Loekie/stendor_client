@@ -8,14 +8,16 @@ package com.example.besturing_stendor;
 	import android.os.Bundle;
 	import android.widget.TextView;
 
-	public class MainActivity extends Activity implements SensorEventListener {
+	public class MainActivity extends Activity implements SensorEventListener
+    {
 		private SensorManager sensorManager;
 		
 		TextView xCoor; // declare X axis object
 		TextView yCoor; // declare Y axis object
 		
 		@Override
-		public void onCreate(Bundle savedInstanceState){
+		public void onCreate(Bundle savedInstanceState)
+        {
 			
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_main);
@@ -36,7 +38,8 @@ package com.example.besturing_stendor;
 			*/
 		}
 
-		public void onAccuracyChanged(Sensor sensor,int accuracy){
+		public void onAccuracyChanged(Sensor sensor,int accuracy)
+        {
 			
 		}
 		
