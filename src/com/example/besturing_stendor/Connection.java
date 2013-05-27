@@ -6,6 +6,7 @@ import java.net.Socket;
 
 public class Connection implements Runnable
 {
+    String ip;
     Socket socket;
     InputStream is;
     OutputStream os;
@@ -17,6 +18,11 @@ public class Connection implements Runnable
 
     private Connection(String ip)
     {
+        this.ip = ip;
+    }
+
+    public void run()
+    {
         try
         {
             socket = new Socket(ip, 2001);
@@ -24,11 +30,6 @@ public class Connection implements Runnable
         catch (Exception e)
         {
         }
-    }
-
-    public void run()
-    {
-
     }
 
 }

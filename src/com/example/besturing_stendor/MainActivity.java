@@ -7,13 +7,17 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.view.View;
 
-public class MainActivity extends Activity implements SensorEventListener
+public class MainActivity
+    extends Activity
+    implements SensorEventListener, View.OnClickListener
 {
 	private SensorManager sensorManager;
 	
 	TextView xCoor; // declare X axis object
 	TextView yCoor; // declare Y axis object
+    Robot robot;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -21,10 +25,12 @@ public class MainActivity extends Activity implements SensorEventListener
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+        robot = new Robot();
+
 		
 		xCoor=(TextView)findViewById(R.id.xcoor); // create X axis object
 		yCoor=(TextView)findViewById(R.id.ycoor); // create Y axis object
-		
+        		
 		sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
 		// add listener. The listener will be HelloAndroid (this) class
 		sensorManager.registerListener(this, 
@@ -43,6 +49,11 @@ public class MainActivity extends Activity implements SensorEventListener
 		
 	}
 	
+    public void onClick(View arg0)
+    {
+        robot.connect("10.210.6.40");
+    }
+
 	public void onSensorChanged(SensorEvent event){
 		
 		// check sensor type
