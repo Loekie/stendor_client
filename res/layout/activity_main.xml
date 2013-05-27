@@ -21,4 +21,9 @@
 	    android:text="Y Coordinate: "
 	    android:textSize="@dimen/activity_vertical_margin" />
 	
+    <ToggleButton
+        android:id="@+id/toggleButton1"
+        android:layout_height="50dp"
+        android:text="ToggleButton"/>
+
 </TableLayout>

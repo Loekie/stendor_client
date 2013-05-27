@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import android.view.View;
 
 public class MainActivity
@@ -17,6 +18,7 @@ public class MainActivity
 	
 	TextView xCoor; // declare X axis object
 	TextView yCoor; // declare Y axis object
+    ToggleButton btnVerbinding;
     Robot robot;
 	
 	@Override
@@ -30,6 +32,8 @@ public class MainActivity
 		
 		xCoor=(TextView)findViewById(R.id.xcoor); // create X axis object
 		yCoor=(TextView)findViewById(R.id.ycoor); // create Y axis object
+        btnVerbinding = (ToggleButton)findViewById(R.id.toggleButton1);
+        btnVerbinding.setOnClickListener(this);
         		
 		sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
 		// add listener. The listener will be HelloAndroid (this) class
