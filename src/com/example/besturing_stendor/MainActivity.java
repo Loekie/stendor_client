@@ -6,6 +6,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.view.View;
@@ -16,9 +18,12 @@ public class MainActivity
 {
 	private SensorManager sensorManager;
 	
-	TextView xCoor; // declare X axis object
-	TextView yCoor; // declare Y axis object
+	TextView xCoor;
+	TextView yCoor; 
+	EditText ipAdress;
     ToggleButton btnVerbinding;
+    ProgressBar Activiteitbalk;
+    
     Robot robot;
 	
 	@Override
@@ -30,22 +35,19 @@ public class MainActivity
         robot = new Robot();
 
 		
-		xCoor=(TextView)findViewById(R.id.xcoor); // create X axis object
-		yCoor=(TextView)findViewById(R.id.ycoor); // create Y axis object
+		xCoor=(TextView)findViewById(R.id.xcoor); 
+		yCoor=(TextView)findViewById(R.id.ycoor);
+		ipAdress = (EditText) findViewById(R.id.editText1);
         btnVerbinding = (ToggleButton)findViewById(R.id.toggleButton1);
         btnVerbinding.setOnClickListener(this);
+        Activiteitbalk = (ProgressBar)findViewById(R.id.progressBar1);
         		
 		sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
-		// add listener. The listener will be HelloAndroid (this) class
+		
 		sensorManager.registerListener(this, 
 				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_DELAY_NORMAL);
 		
-		/*	More sensor speeds (taken from api docs)
-		    SENSOR_DELAY_FASTEST get sensor data as fast as possible
-		    SENSOR_DELAY_GAME	rate suitable for games
-		 	SENSOR_DELAY_NORMAL	rate (default) suitable for screen orientation changes
-		*/
 	}
 
 	public void onAccuracyChanged(Sensor sensor,int accuracy)
@@ -55,20 +57,28 @@ public class MainActivity
 	
     public void onClick(View arg0)
     {
-        robot.connect("10.210.6.40");
+    	if(btnVerbinding.getText().equals("Disconnect")) 
+    	{
+    		robot.connect(ipAdress.getText().toString(), 2002);
+    		Activiteitbalk.setVisibility(View.VISIBLE);
+		}
+    	else
+    	{
+    		Activiteitbalk.setVisibility(View.INVISIBLE);
+		}
+    	
     }
 
 	public void onSensorChanged(SensorEvent event){
 		
-		// check sensor type
+		
 		if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER)
 		{
-			// assign directions
 			float x=event.values[0];
 			float y=event.values[1];
 			
-			xCoor.setText("X: "+(int)x);
-			yCoor.setText("Y: "+(int)y);
+			xCoor.setText("X: "+x);
+			yCoor.setText("Y: "+y);
 		}
 	}
 }

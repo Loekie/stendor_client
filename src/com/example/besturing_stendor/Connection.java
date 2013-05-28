@@ -7,25 +7,27 @@ import java.net.Socket;
 public class Connection implements Runnable
 {
     String ip;
+    int port;
     Socket socket;
     InputStream is;
     OutputStream os;
 
-    public static Connection connect(String ip)
+    public static Connection connect(String ip, int port)
     {
-        return new Connection(ip);
+        return new Connection(ip, port);
     }
 
-    private Connection(String ip)
+    private Connection(String ip, int port)
     {
         this.ip = ip;
+        this.port = port;
     }
 
     public void run()
     {
         try
         {
-            socket = new Socket(ip, 2001);
+            socket = new Socket(ip, port);
         }
         catch (Exception e)
         {

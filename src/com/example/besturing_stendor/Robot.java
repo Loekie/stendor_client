@@ -9,9 +9,10 @@ public class Robot
         
     }
 
-    public void connect(String ip)
+    public void connect(String ip, int port)
     {
-        connection = new Thread(Connection.connect(ip));
+        connection = new Thread(Connection.connect(ip, port));
+        connection.start();
     }
 }
 
