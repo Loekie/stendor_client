@@ -25,6 +25,9 @@ public class MainActivity
     ProgressBar Activiteitbalk;
     
     Robot robot;
+    float tolerance = 0.9f;
+    
+    
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -77,8 +80,18 @@ public class MainActivity
 			float x=event.values[0];
 			float y=event.values[1];
 			
-			xCoor.setText("X: "+x);
-			yCoor.setText("Y: "+y);
+			if((x > tolerance && x >= 0) || (x < (tolerance * -1) && x < 0))
+			{
+				xCoor.setText("X: "+x);
+				robot.pan(x);
+			}
+			
+			if((y > tolerance && y >= 0) || (y < (tolerance * -1) && y < 0))
+			{
+				yCoor.setText("Y: "+y);
+				robot.tilt(y);
+			}
+			
 		}
 	}
 }
