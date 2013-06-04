@@ -2,7 +2,9 @@ package com.example.besturing_stendor;
 
 public class Robot
 {
-    private Connection connection;
+    public Connection connection;
+    public Connection connectioncamimage;
+    
     private int panDegrees = 90;
     private int tiltDegrees = 90;
     
@@ -11,15 +13,26 @@ public class Robot
     {
         
     }
-
-    public void connect(String ip, int port)
+    
+    public void closeConnection()
     {
-        connection = Connection.connect(ip, port);
-        connection.start();
-        init();
+    	connection.close();
+    	connectioncamimage.close();
+    }
+
+    public void beeldconnect(MainActivity activity, String ip, int port)
+    {
+    	connectioncamimage = Connection.connect(activity, ip, port);
+    	connectioncamimage.start();
     }
     
-    private void init()
+    public void dataconnect(MainActivity activity, String ip, int port)
+    {
+    	connection = Connection.connect(activity, ip, port);
+        connection.start();
+    }
+    
+    public void init()
     {
 		connection.write("P" + panDegrees);
 		connection.write("T" + tiltDegrees);
@@ -27,7 +40,7 @@ public class Robot
     
     public void pan(float pos)
     {
-    	if((pos >= 0 && (pos + panDegrees) < 180) || (pos < 0 && (pos + panDegrees) > 0))
+    	if((pos >= 0 && (pos + panDegrees) < 180) || (pos < 0 && (pos + panDegrees) > 0) && connection.connected)
     	{
     		panDegrees += pos;
     		connection.write("P" + panDegrees);
@@ -36,7 +49,7 @@ public class Robot
     
     public void tilt(float pos)
     {
-    	if((pos >= 0 && (pos + tiltDegrees) < 180) || (pos < 0 && (pos + tiltDegrees) > 0))
+    	if((pos >= 0 && (pos + tiltDegrees) < 180) || (pos < 0 && (pos + tiltDegrees) > 0) && connection.connected)
     	{
     		tiltDegrees += pos;
     		connection.write("T" + tiltDegrees);

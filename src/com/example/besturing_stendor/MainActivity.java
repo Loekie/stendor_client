@@ -1,14 +1,15 @@
 package com.example.besturing_stendor;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.view.View;
 
@@ -17,14 +18,14 @@ public class MainActivity
     implements SensorEventListener, View.OnClickListener
 {
 	private SensorManager sensorManager;
-	
-	TextView xCoor;
-	TextView yCoor; 
+
+	ImageView camimage;
+	Bitmap bmp;
 	EditText ipAdress;
     ToggleButton btnVerbinding;
-    ProgressBar Activiteitbalk;
+    ProgressBar progress;
     
-    Robot robot;
+    public Robot robot = null;
     float tolerance = 0.9f;
     
     
@@ -37,13 +38,11 @@ public class MainActivity
 		setContentView(R.layout.activity_main);
         robot = new Robot();
 
-		
-		xCoor=(TextView)findViewById(R.id.xcoor); 
-		yCoor=(TextView)findViewById(R.id.ycoor);
+		camimage = (ImageView) findViewById(R.id.imageView1);
 		ipAdress = (EditText) findViewById(R.id.editText1);
         btnVerbinding = (ToggleButton)findViewById(R.id.toggleButton1);
         btnVerbinding.setOnClickListener(this);
-        Activiteitbalk = (ProgressBar)findViewById(R.id.progressBar1);
+        progress = (ProgressBar)findViewById(R.id.progressBar1);
         		
 		sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
 		
@@ -53,27 +52,28 @@ public class MainActivity
 		
 	}
 
-	public void onAccuracyChanged(Sensor sensor,int accuracy)
-    {
-		
-	}
+
 	
     public void onClick(View arg0)
     {
     	if(btnVerbinding.getText().equals("Disconnect")) 
     	{
-    		robot.connect(ipAdress.getText().toString(), 2002);
-    		Activiteitbalk.setVisibility(View.VISIBLE);
+    		robot.dataconnect(MainActivity.this, ipAdress.getText().toString(), 2002);
+    		robot.beeldconnect(MainActivity.this, ipAdress.getText().toString(), 2001);
+    		progress.setVisibility(View.VISIBLE);
 		}
-    	else
+    	if(btnVerbinding.getText().equals("Connect"))
     	{
-    		Activiteitbalk.setVisibility(View.INVISIBLE);
+    		robot.closeConnection();
+    		progress.setVisibility(View.INVISIBLE);
 		}
-    	
     }
+    
+    public void changeImage() {
+		camimage.setImageBitmap(this.bmp);
+	}
 
 	public void onSensorChanged(SensorEvent event){
-		
 		
 		if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER)
 		{
@@ -82,17 +82,32 @@ public class MainActivity
 			
 			if((x > tolerance && x >= 0) || (x < (tolerance * -1) && x < 0))
 			{
-				xCoor.setText("X: "+x);
-				robot.pan(x);
+				try
+		        {
+					robot.pan(x);
+		        }
+		        catch (Exception e)
+		        {
+		        }
 			}
-			
 			if((y > tolerance && y >= 0) || (y < (tolerance * -1) && y < 0))
 			{
-				yCoor.setText("Y: "+y);
-				robot.tilt(y);
+				try
+		        {
+					robot.tilt(y);
+		        }
+		        catch (Exception e)
+		        {
+		        }	
 			}
-			
-		}
+		 }	
 	}
+	
+	public void onAccuracyChanged(Sensor sensor,int accuracy)
+    {
+		
+	}
+	
 }
+
 
