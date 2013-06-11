@@ -55,5 +55,33 @@ public class Robot
     		connection.write("T" + tiltDegrees);
     	}
     }
+    
+    public void leftDrive(int ld)
+    {
+    	if(ld > 0)
+    	{
+    		connection.write("A" + ld);
+    	}
+    	if(ld < 0)
+    	{
+    		ld = ld* -1;
+    		connection.write("Q" + ld);
+    	} 	
+    	
+    }
+       
+    public void rightDrive(int rd)
+    {
+    	if(rd > 0)
+    	{
+    		connection.write("S" + rd);
+    	}
+    	if(rd < 0)
+    	{
+    		rd = rd * -1;
+    		connection.write("W" + rd);
+    	}
+    }
+    
 }
 

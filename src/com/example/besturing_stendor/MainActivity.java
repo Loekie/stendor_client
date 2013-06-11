@@ -1,5 +1,8 @@
 package com.example.besturing_stendor;
 
+import com.MobileAnarchy.Android.Widgets.Joystick.JoystickView;
+import com.MobileAnarchy.Android.Widgets.Joystick.JoystickMovedListener;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.hardware.Sensor;
@@ -12,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class MainActivity
     extends Activity
@@ -24,6 +29,8 @@ public class MainActivity
 	EditText ipAdress;
     ToggleButton btnVerbinding;
     ProgressBar progress;
+    JoystickView joystick;
+	JoystickView joystick2;
     
     public Robot robot = null;
     float tolerance = 0.9f;
@@ -35,6 +42,11 @@ public class MainActivity
     {
 		
 		super.onCreate(savedInstanceState);
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		setContentView(R.layout.activity_main);
         robot = new Robot();
 
@@ -43,6 +55,11 @@ public class MainActivity
         btnVerbinding = (ToggleButton)findViewById(R.id.toggleButton1);
         btnVerbinding.setOnClickListener(this);
         progress = (ProgressBar)findViewById(R.id.progressBar1);
+        joystick = (JoystickView)findViewById(R.id.joystickView1);
+		joystick2 = (JoystickView)findViewById(R.id.JoystickView01);
+		
+		joystick.setOnJostickMovedListener(_listener);
+        joystick2.setOnJostickMovedListener(listener2);
         		
 		sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
 		
@@ -52,8 +69,6 @@ public class MainActivity
 		
 	}
 
-
-	
     public void onClick(View arg0)
     {
     	if(btnVerbinding.getText().equals("Disconnect")) 
@@ -107,6 +122,57 @@ public class MainActivity
     {
 		
 	}
+	
+	private JoystickMovedListener _listener = new JoystickMovedListener() 
+	{
+		@Override
+		public void OnMoved(int pan, int tilt) 
+		{
+			try
+	        {
+				robot.rightDrive(tilt*25);
+	        }
+	        catch (Exception e)
+	        {
+	        }	
+		}
+		@Override
+		public void OnReleased() 
+		{
+
+		}
+		
+		public void OnReturnedToCenter() 
+		{
+
+		};
+	};
+	
+	 private JoystickMovedListener listener2 = new JoystickMovedListener() 
+	 {
+			@Override
+			public void OnMoved(int pan, int tilt) 
+			{
+				try
+		        {
+					robot.leftDrive(tilt*25);
+		        }
+		        catch (Exception e)
+		        {
+		        }	
+			}
+			@Override
+			public void OnReleased() 
+			{
+
+			}
+			
+			public void OnReturnedToCenter() 
+			{
+
+			};
+			
+		}; 
 	
 }
 

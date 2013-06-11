@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Stendor besturing</string>
+    <string name="app_name">Stendor Client</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hallo wereld!</string>
     <string name="ip_adres">192.168.1.103</string>
     <string name="ToggleButton">ToggleButton</string>
-    <string name="ycoor">Y Coordinate: </string>
-    <string name="xcoor">X Coordinate: </string>
 
 </resources>
